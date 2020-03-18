@@ -24,13 +24,13 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 export default async () => {
   try {
+    process.stdout.write(`${chalk.blue('Build plugin')}\n`);
     const config = createConfig(getPaths());
     webpack(config, (_, stats: webpack.Stats) => {
       //   process.stdout.write(error.message);
       process.stdout.write(stats.toString());
-      process.stdout.write(`${chalk.blue('You genius!')}\n`);
+      process.stdout.write(`${chalk.blue('\nYou genius!!')}\n`);
     });
-    process.stdout.write(`${chalk.blue('Build plugin')}\n`);
   } catch (error) {
     process.stderr.write(`${chalk.red(error.message)}\n`);
     process.exit(1);
@@ -44,10 +44,14 @@ export function createConfig(paths: Paths): webpack.Configuration {
     bail: false,
     devtool: 'source-map',
     context: paths.appPath,
-    entry: ['src/index.ts'],
+    entry: './src/index.ts',
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
       plugins: [new ModuleScopePlugin([paths.appSrc], [paths.appPackageJson])],
+    },
+    externals: {
+      react: 'react',
+      reactDOM: 'react-dom',
     },
     module: {
       rules: [
@@ -97,28 +101,11 @@ export function createConfig(paths: Paths): webpack.Configuration {
         },
       ],
     },
-    // output: {
-    //   publicPath: '/',
-    //   filename: 'bundle.js',
-    // },
-    plugins: [
-      new CleanWebpackPlugin(),
-      //   new HtmlWebpackPlugin({
-      //     template: paths.appHtml,
-      //   }),
-      //   new ForkTsCheckerWebpackPlugin({
-      //     tsconfig: paths.appTsConfig,
-      //     eslint: true,
-      //     eslintOptions: {
-      //       parserOptions: {
-      //         project: paths.appTsConfig,
-      //         tsconfigRootDir: paths.appPath,
-      //       },
-      //     },
-      //     reportFiles: ['**', '!**/__tests__/**', '!**/?(*.)(spec|test).*'],
-      //   }),
-      //   new webpack.HotModuleReplacementPlugin(),
-    ],
+    output: {
+      publicPath: '/',
+      filename: 'bundle.js',
+    },
+    plugins: [new CleanWebpackPlugin()],
     node: {
       module: 'empty',
       dgram: 'empty',
