@@ -14,13 +14,4 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
-import ExampleComponent from './ExampleComponent';
-
-describe('ExampleComponent', () => {
-  it('should render', () => {
-    const rendered = render(<ExampleComponent />);
-    expect(rendered.getByText('Welcome to {{ id }}!')).toBeInTheDocument();
-  });
-});
+export { default } from './ExamplePage';

@@ -14,4 +14,13 @@
  * limitations under the License.
  */
 
-export { default } from './ExampleComponent';
+import React from 'react';
+import { render } from '@testing-library/react';
+import ExamplePage from './ExamplePage';
+
+describe('ExamplePage', () => {
+  it('should render', () => {
+    const rendered = render(<ExamplePage />);
+    expect(rendered.getByText('Welcome to {{ id }}!')).toBeInTheDocument();
+  });
+});
