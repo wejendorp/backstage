@@ -14,27 +14,34 @@
  * limitations under the License.
  */
 
-import chalk from 'chalk';
 import webpack from 'webpack';
 import { getPaths, Paths } from '../serve/paths';
-// import HtmlWebpackPlugin from 'html-webpack-plugin';
-// import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import ModuleScopePlugin from 'react-dev-utils/ModuleScopePlugin';
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
+const PeerDepsExternalsPlugin = require('peer-deps-externals-webpack-plugin');
 
 export default async () => {
-  try {
-    process.stdout.write(`${chalk.blue('Build plugin')}\n`);
-    const config = createConfig(getPaths());
-    webpack(config, (_, stats: webpack.Stats) => {
-      //   process.stdout.write(error.message);
-      process.stdout.write(stats.toString());
-      process.stdout.write(`${chalk.blue('\nYou genius!!')}\n`);
+  const config = createConfig(getPaths());
+  const compiler = webpack(config);
+  await new Promise((resolve, _) => {
+    compiler.run((error: any, stats: webpack.Stats) => {
+      if (error) {
+        throw new Error(error);
+      }
+
+      const info = stats.toJson();
+
+      if (stats.hasErrors()) {
+        console.error(info.errors.toString());
+      }
+
+      if (stats.hasWarnings()) {
+        console.warn(info.warnings);
+      }
+
+      resolve(stats);
     });
-  } catch (error) {
-    process.stderr.write(`${chalk.red(error.message)}\n`);
-    process.exit(1);
-  }
+  });
 };
 
 export function createConfig(paths: Paths): webpack.Configuration {
@@ -49,10 +56,13 @@ export function createConfig(paths: Paths): webpack.Configuration {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
       plugins: [new ModuleScopePlugin([paths.appSrc], [paths.appPackageJson])],
     },
-    externals: {
-      react: 'react',
-      reactDOM: 'react-dom',
-    },
+    // externals: {
+    //   react: 'react',
+    //   reactDOM: 'react-dom',
+    //   muiCore: '@material-ui/core',
+    //   muiIcons: '@material-ui/icons',
+    //   backstageCore: '@spotify-backstage/core',
+    // },
     module: {
       rules: [
         {
@@ -94,18 +104,18 @@ export function createConfig(paths: Paths): webpack.Configuration {
           test: /\.(md)$/,
           use: 'raw-loader',
         },
-        {
-          test: /\.css$/i,
-          include: [paths.appSrc],
-          use: ['style-loader', 'css-loader'],
-        },
+        // {
+        //   test: /\.css$/i,
+        //   include: [paths.appSrc],
+        //   use: ['style-loader', 'css-loader'],
+        // },
       ],
     },
     output: {
       publicPath: '/',
       filename: 'bundle.js',
     },
-    plugins: [new CleanWebpackPlugin()],
+    plugins: [new CleanWebpackPlugin(), new PeerDepsExternalsPlugin()],
     node: {
       module: 'empty',
       dgram: 'empty',
