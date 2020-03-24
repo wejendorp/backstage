@@ -4,13 +4,12 @@ import commonjs from 'rollup-plugin-commonjs';
 import postcss from 'rollup-plugin-postcss';
 import resolve from 'rollup-plugin-node-resolve';
 import image from 'rollup-plugin-image-files';
-import packageJson from './package.json';
 
 export default {
   input: 'src/index.ts',
   output: [
     {
-      file: packageJson.module,
+      file: 'build/index.esm.js',
       format: 'esm',
       sourcemap: true,
     },

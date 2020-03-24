@@ -27,6 +27,8 @@ import pluginBuild from './commands/plugin/build';
 import pluginServe from './commands/plugin/serve';
 import { exitWithError } from './helpers/errors';
 
+console.log(`DEBUG: hello!`);
+
 const main = (argv: string[]) => {
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 
@@ -115,5 +117,7 @@ process.on('unhandledRejection', rejection => {
   }
 });
 
-main(process.argv);
-// main([process.argv[0], process.argv[1], '--version']);
+// main(process.argv);
+process.chdir('../../plugins/welcome');
+console.log(`DEBUG: ${process.cwd()}`);
+main([process.argv[0], process.argv[1], 'plugin:build']);

@@ -27,10 +27,12 @@ import {
   SupportButton,
 } from '@spotify-backstage/core';
 import ExampleFetchComponent from '../ExampleFetchComponent';
+import logo from './apple-touch-icon.png';
+import './example.css';
 
 const ExampleComponent: FC<{}> = () => (
   <Page theme={pageTheme.tool}>
-    <Header title="OO to Yooo!" subtitle="Optional subtitle">
+    <Header title="OO to coolio!" subtitle="Optional subtitle">
       <HeaderLabel label="Owner" value="Team X" />
       <HeaderLabel label="Lifecycle" value="Alpha" />
     </Header>
@@ -41,7 +43,8 @@ const ExampleComponent: FC<{}> = () => (
       <Grid container spacing={3} direction="column">
         <Grid item>
           <InfoCard title="Information card" maxWidth>
-            <Typography variant="body1">
+            <img src={logo} />
+            <Typography variant="body1" className="test">
               All content should be wrapped in a card like this!!!!!!!!!!!!!!!
             </Typography>
           </InfoCard>

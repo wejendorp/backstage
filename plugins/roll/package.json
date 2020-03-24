@@ -2,6 +2,7 @@
   "name": "@spotify-backstage/plugin-roll",
   "version": "0.1.0",
   "module": "build/index.esm.js",
+  "main": "build/index.js",
   "license": "Apache-2.0",
   "private": false,
   "scripts": {
@@ -21,14 +22,17 @@
     "rollup-plugin-typescript2": "^0.25.2"
   },
   "peerDependencies": {
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "@spotify-backstage/core": "^0.1.0",
-    "@material-ui/lab": "4.0.0-alpha.45",
     "@material-ui/core": "^4.9.1",
-    "@material-ui/icons": "^4.9.1"
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "4.0.0-alpha.45",
+    "@spotify-backstage/core": "^0.1.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
   },
   "dependencies": {
-    "@material-ui/lab": "4.0.0-alpha.45"
+    "@material-ui/lab": "4.0.0-alpha.45",
+    "@rollup/plugin-image": "^2.0.4",
+    "rollup-plugin-image-files": "^1.4.2",
+    "rollup-plugin-postcss": "^2.5.0"
   }
 }
