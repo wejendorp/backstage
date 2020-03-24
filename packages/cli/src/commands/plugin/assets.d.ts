@@ -95,6 +95,5 @@ declare module '*.module.sass' {
 }
 
 declare module 'rollup-plugin-image-files' {
-  const value: any;
-  export default value;
+  export default function image(): any;
 }
