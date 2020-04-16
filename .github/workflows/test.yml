@@ -12,13 +12,12 @@ jobs:
         node-version: [12.x]
 
     steps:
+      - name: check 1
+        run: env
       - uses: actions/checkout@v2
+      - name: check 2
+        run: env
       - name: fetch branch master
         run: git fetch origin master
-      - name: check 
-        run: |
-          echo GH_WS=$GITHUB_WORKSPACE
-          echo CI=$CI
-          echo HOME=$HOME
-          echo GH_EP=$GITHUB_EVENT_PATH
-          env
+      - name: check 3
+        run: env
