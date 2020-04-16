@@ -1,0 +1,24 @@
+name: Test please ignore
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: fetch branch master
+        run: git fetch origin master
+      - name: check 
+        run: |
+          echo GH_WS=$GITHUB_WORKSPACE
+          echo CI=$CI
+          echo HOME=$HOME
+          echo GH_EP=$GITHUB_EVENT_PATH
+          env
