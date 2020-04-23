@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import React, { Component, Fragment } from 'react';
-import { withStyles } from '@material-ui/core';
+import React, { Fragment, FC } from 'react';
+import { makeStyles } from '@material-ui/core';
 import startCase from 'lodash/startCase';
 
 import {
@@ -25,21 +25,22 @@ import {
   MetadataListItem,
 } from './MetadataTable';
 
-const listStyle = {
+const useListStyle = makeStyles({
   root: {
     margin: '0 0',
     listStyleType: 'none',
   },
-};
+});
 
-const nestedListStyle = {
+const useNestedListStyle = makeStyles({
   root: {
-    ...listStyle.root,
+    margin: '0 0',
+    listStyleType: 'none',
     paddingLeft: '8px',
   },
-};
+});
 
-function renderList(list, options, nested) {
+function renderList(list, _, nested) {
   const values = list.map((item, index) => (
     <MetadataListItem key={index}>{toValue(item)}</MetadataListItem>
   ));
@@ -50,9 +51,10 @@ function renderList(list, options, nested) {
   );
 }
 
-function renderMap(map, options, nested) {
+function renderMap(map, options, nested: boolean | undefined) {
+  console.log('renderMap');
   const values = Object.keys(map).map(key => {
-    const value = toValue(map[key], true);
+    const value = toValue(map[key], {}, true);
     const fmtKey =
       options && options.titleFormat
         ? options.titleFormat(key)
@@ -72,7 +74,8 @@ function renderMap(map, options, nested) {
   );
 }
 
-function toValue(value, options, nested) {
+function toValue(value, options?: object, nested?: boolean | undefined) {
+  console.log('value', value, typeof value);
   if (React.isValidElement(value)) {
     return <Fragment>{value}</Fragment>;
   }
@@ -88,24 +91,20 @@ function toValue(value, options, nested) {
   return <Fragment>{value}</Fragment>;
 }
 
-function mapToItems(info, options) {
-  return Object.keys(info).map(key => (
-    <TableItem key={key} title={key} value={info[key]} options={options} />
-  ));
-}
-
-// Sub Components
-const StyledList = withStyles(listStyle)(({ classes, children }) => (
-  <MetadataList classes={classes}>{children}</MetadataList>
-));
-const StyledNestedList = withStyles(
-  nestedListStyle,
-)(({ classes, children }) => (
-  <MetadataList classes={classes}>{children}</MetadataList>
-));
 const ItemValue = ({ value, options }) => (
   <Fragment>{toValue(value, options)}</Fragment>
 );
+
+// Sub Components
+const StyledList: FC = ({ children }) => {
+  const classes = useListStyle();
+  return <MetadataList classes={classes}>{children}</MetadataList>;
+};
+const StyledNestedList: FC = ({ children }) => {
+  const classes = useNestedListStyle();
+  return <MetadataList classes={classes}>{children}</MetadataList>;
+};
+
 const TableItem = ({ title, value, options }) => {
   return (
     <MetadataTableItem
@@ -120,11 +119,32 @@ const TableItem = ({ title, value, options }) => {
   );
 };
 
-export default class StructuredMetadataTable extends Component {
-  render() {
-    const { metadata, dense, options } = this.props;
-    const metadataItems = mapToItems(metadata, options || {});
+type StructuredMetadataTableProps = {
+  metadata: {
+    [name: string]: any;
+  };
+  dense?: boolean | undefined;
+  options?: object;
+};
 
-    return <MetadataTable dense={dense}>{metadataItems}</MetadataTable>;
-  }
+function mapToItems(info, options) {
+  return Object.keys(info).map(key => {
+    console.log(key, info[key]);
+    return (
+      <TableItem key={key} title={key} value={info[key]} options={options} />
+    );
+  });
 }
+
+const StructuredMetadataTable: FC<StructuredMetadataTableProps> = ({
+  metadata,
+  dense,
+  options,
+}) => {
+  console.log('yelo');
+  const metadataItems = mapToItems(metadata, options || {});
+  console.log('metadataItems', metadataItems);
+  return <MetadataTable dense={dense}>{metadataItems}</MetadataTable>;
+};
+
+export default StructuredMetadataTable;

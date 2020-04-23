@@ -33,12 +33,31 @@ import {
   pageTheme,
   ContentHeader,
   SupportButton,
+  StructuredMetadataTable,
 } from '@backstage/core';
 import ErrorButton from './ErrorButton';
 import ToggleFeatureFlagButton from './ToggleFeatureFlagButton';
 
 const WelcomePage: FC<{}> = () => {
   const profile = { givenName: '' };
+
+  const cardContentStyle = { heightX: 200, width: 500 };
+
+  const metadata = {
+    description:
+      'This is a long description of what this is doing (and some additional info too). \n It has new lines and extra text to make it especially annoying to render. But it just ignores them.',
+    something: 'Yes',
+    owner: 'squad',
+    'longer key name': ['v1', 'v2', 'v3'],
+    rules: {
+      'permit missing partitions': 'No',
+      'max partition finish time': '19 hours',
+      Support: {
+        'office hours': 'Contact goalie',
+        'after hours': 'trigger PD alert',
+      },
+    },
+  };
 
   return (
     <Page theme={pageTheme.home}>
@@ -127,6 +146,16 @@ const WelcomePage: FC<{}> = () => {
               <ToggleFeatureFlagButton />
             </InfoCard>
           </Grid>
+        </Grid>
+        <Grid item>
+          <InfoCard
+            title="Structured Metadata Table"
+            subheader="Wrapped in InfoCard"
+          >
+            <div style={cardContentStyle}>
+              <StructuredMetadataTable metadata={metadata} />
+            </div>
+          </InfoCard>
         </Grid>
       </Content>
     </Page>
