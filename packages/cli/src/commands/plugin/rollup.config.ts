@@ -15,14 +15,13 @@
  */
 
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import typescript from 'rollup-plugin-typescript2';
+import sucrase from '@rollup/plugin-sucrase';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
 import imageFiles from 'rollup-plugin-image-files';
 import json from '@rollup/plugin-json';
 import { RollupWatchOptions } from 'rollup';
-import { paths } from 'lib/paths';
 
 export default {
   input: 'src/index.ts',
@@ -36,6 +35,7 @@ export default {
     }),
     resolve({
       mainFields: ['browser', 'module', 'main'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
     }),
     commonjs({
       include: ['node_modules/**', '../../node_modules/**'],
@@ -44,20 +44,24 @@ export default {
     postcss(),
     imageFiles(),
     json(),
-    typescript({
-      include: `${paths.resolveTarget('src')}/**/*.{js,jsx,ts,tsx}`,
-      tsconfigOverride: {
-        // The dev folder is for the local plugin serve, ignore it in the build
-        // If we don't do this we get a folder structure similar to dist/{src,dev}/...
-        exclude: ['dev'],
-        compilerOptions: {
-          // Use absolute path to src dir as root for declarations, relying on the default
-          // seems to produce declaration maps that are relative to dist/ instead of src/
-          // Using a relative path like ../src doesn't work either becaus it will be used as is in subdirs.
-          sourceRoot: paths.resolveTarget('src'),
-        },
-      },
-      clean: true,
+    sucrase({
+      exclude: ['dev'],
+      transforms: ['typescript', 'jsx'],
     }),
+    // typescript({
+    //   include: `${paths.resolveTarget('src')}/**/*.{js,jsx,ts,tsx}`,
+    //   tsconfigOverride: {
+    //     // The dev folder is for the local plugin serve, ignore it in the build
+    //     // If we don't do this we get a folder structure similar to dist/{src,dev}/...
+    //     exclude: ['dev'],
+    //     compilerOptions: {
+    //       // Use absolute path to src dir as root for declarations, relying on the default
+    //       // seems to produce declaration maps that are relative to dist/ instead of src/
+    //       // Using a relative path like ../src doesn't work either becaus it will be used as is in subdirs.
+    //       sourceRoot: paths.resolveTarget('src'),
+    //     },
+    //   },
+    //   clean: true,
+    // }),
   ],
 } as RollupWatchOptions;

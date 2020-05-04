@@ -98,3 +98,7 @@ declare module '*.module.sass' {
 declare module 'rollup-plugin-image-files' {
   export default function image(): any;
 }
+
+declare module '@rollup/plugin-sucrase' {
+  export default function sucrase(options: any): any;
+}
