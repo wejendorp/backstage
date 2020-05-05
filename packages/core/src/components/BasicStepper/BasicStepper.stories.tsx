@@ -16,6 +16,7 @@
 
 import React, { useState } from 'react';
 import { TextField } from '@material-ui/core';
+import { useForm } from 'react-hook-form';
 import { BasicVerticalStepper, BasicVerticalStep } from '.';
 
 export default {
@@ -50,6 +51,7 @@ export const ConditionalButtons = () => {
       >
         <TextField
           variant="outlined"
+          margin="dense"
           placeholder="Required*"
           onChange={e => setRequired(!!e.target.value)}
         />
@@ -77,5 +79,57 @@ export const CompletionStep = () => {
         <div>You've completed the Stepper</div>
       </BasicVerticalStep>
     </BasicVerticalStepper>
+  );
+};
+
+export const WithForm = () => {
+  const { handleSubmit, register } = useForm();
+  const onSubmit = (values: any) => console.log(values);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <BasicVerticalStepper>
+        <BasicVerticalStep title="Step 1">
+          <>
+            <TextField
+              variant="outlined"
+              margin="dense"
+              placeholder="Name"
+              name="name"
+              inputRef={register}
+              style={{ display: 'block' }}
+            />
+            <TextField
+              variant="outlined"
+              margin="dense"
+              placeholder="Email"
+              name="email"
+              inputRef={register}
+            />
+          </>
+        </BasicVerticalStep>
+        <BasicVerticalStep title="Step 2">
+          <>
+            <TextField
+              variant="outlined"
+              margin="dense"
+              placeholder="Name"
+              name="name"
+              inputRef={register}
+            />
+            <TextField
+              variant="outlined"
+              margin="dense"
+              placeholder="Email"
+              name="email"
+              inputRef={register}
+            />
+          </>
+        </BasicVerticalStep>
+        <BasicVerticalStep title="Success!" end>
+          <div>You've completed the Stepper</div>
+        </BasicVerticalStep>
+      </BasicVerticalStepper>
+    </form>
   );
 };
