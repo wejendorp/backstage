@@ -15,7 +15,10 @@
  */
 
 import Router from 'express-promise-router';
-import { AuthProviderRouteHandlers, AuthProviderConfig } from './types';
+import {
+  AuthProviderRouteHandlers,
+  AuthProviderConfig,
+} from './types';
 import { ProviderFactories } from './factories';
 
 export const defaultRouter = (provider: AuthProviderRouteHandlers) => {
