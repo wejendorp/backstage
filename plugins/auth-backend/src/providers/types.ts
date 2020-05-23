@@ -50,24 +50,27 @@ export interface AuthProviderRouteHandlers {
   ): Promise<any>;
 }
 
-export type AuthProviderFactories = {
-  [key: string]: AuthProviderFactory;
-};
+// export type AuthProviderFactories = {
+//   [key: string]: AuthProviderFactory;
+// };
+
+export type AuthProviderFactories = Record<string, AuthProviderFactory>;
 
 export type AuthProviderFactory = {
   new (providerConfig: any): AuthProvider & AuthProviderRouteHandlers;
 };
 
-export type AuthInfo = {
-  profile: passport.Profile;
-  accessToken: string;
+export type AuthInfoBase = {
+  profile?: passport.Profile;
+  accessToken?: string;
+  id_token?: string;
   expiresInSeconds?: number;
 };
 
 export type AuthResponse =
   | {
       type: 'auth-result';
-      payload: AuthInfo;
+      payload: AuthInfoBase;
     }
   | {
       type: 'auth-result';

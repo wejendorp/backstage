@@ -1,0 +1,13 @@
+{
+  "transport": "express",
+  "defaults": {
+    "origin": "http://localhost:7000",
+    "transport": "express"
+  },
+  "google": {
+    "key": "APP_ID",
+    "secret": "APP_SECRET",
+    "callback": "/hello",
+    "scope": ["openid"]
+  }
+}
