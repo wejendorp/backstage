@@ -53,11 +53,8 @@ export class GithubAuthProvider
     })(req, res, next);
   }
 
-  logout(_req: express.Request, res: express.Response) {
-    return new Promise(resolve => {
-      res.send('logout!');
-      resolve();
-    });
+  async logout(_req: express.Request, res: express.Response) {
+    res.send('logout!');
   }
 
   strategy(): passport.Strategy {
