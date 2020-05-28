@@ -23,4 +23,14 @@ export const providers = [
       callbackURL: 'http://localhost:7000/auth/google/handler/frame',
     },
   },
+  {
+    provider: 'github',
+    options: {
+      // clientID: process.env.AUTH_GITHUB_CLIENT_ID!,
+      clientID: 'Iv1.1f45296e397a07bc',
+      // clientSecret: process.env.AUTH_GITHUB_CLIENT_SECRET!,
+      clientSecret: '323405d0ad5340237917f61bcb17fbacd4e776a7',
+      callbackURL: 'http://localhost:7000/auth/github/handler/frame',
+    },
+  },
 ];

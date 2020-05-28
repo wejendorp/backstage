@@ -1,4 +1,4 @@
-import express, { CookieOptions } from 'express';
+import express from 'express';
 import passport from 'passport';
 import { RedirectInfo, AuthInfoBase } from './types';
 

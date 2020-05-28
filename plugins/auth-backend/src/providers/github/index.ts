@@ -1,0 +1,1 @@
+export { GithubAuthProvider } from './provider';
