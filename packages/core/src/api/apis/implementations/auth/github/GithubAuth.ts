@@ -17,11 +17,7 @@
 import GithubIcon from '@material-ui/icons/AcUnit';
 import { DefaultAuthConnector } from '../../lib/AuthConnector';
 import { GithubSession } from './types';
-import {
-  OAuthApi,
-  OpenIdConnectApi,
-  IdTokenOptions,
-} from '../../../definitions/auth';
+import { OAuthApi } from '../../../definitions/auth';
 import { OAuthRequestApi, AuthProvider } from '../../../definitions';
 import { SessionManager } from '../../lib/AuthSessionManager/types';
 import { RefreshingAuthSessionManager } from '../../lib/AuthSessionManager';
@@ -50,9 +46,7 @@ const DEFAULT_PROVIDER = {
   icon: GithubIcon,
 };
 
-const SCOPE_PREFIX = 'https://www.githubapis.com/auth/';
-
-class GithubAuth implements OAuthApi, OpenIdConnectApi {
+class GithubAuth implements OAuthApi {
   static create({
     apiOrigin,
     basePath,
@@ -78,11 +72,7 @@ class GithubAuth implements OAuthApi, OpenIdConnectApi {
 
     const sessionManager = new RefreshingAuthSessionManager({
       connector,
-      defaultScopes: new Set([
-        'openid',
-        `${SCOPE_PREFIX}userinfo.email`,
-        `${SCOPE_PREFIX}userinfo.profile`,
-      ]),
+      defaultScopes: new Set(['user']),
       sessionScopes: session => session.scopes,
       sessionShouldRefresh: session => {
         const expiresInSec = (session.expiresAt.getTime() - Date.now()) / 1000;
@@ -104,16 +94,6 @@ class GithubAuth implements OAuthApi, OpenIdConnectApi {
     return session.accessToken;
   }
 
-  async getIdToken({ optional }: IdTokenOptions = {}) {
-    const session = await this.sessionManager.getSession({
-      optional: optional || false,
-    });
-    if (session) {
-      return session.idToken;
-    }
-    return '';
-  }
-
   async logout() {
     await this.sessionManager.removeSession();
   }
@@ -127,23 +107,7 @@ class GithubAuth implements OAuthApi, OpenIdConnectApi {
       ? scopes
       : scopes.split(/[\s]/).filter(Boolean);
 
-    const normalizedScopes = scopeList.map(scope => {
-      if (scope === 'openid') {
-        return scope;
-      }
-
-      if (scope === 'profile' || scope === 'email') {
-        return `${SCOPE_PREFIX}userinfo.${scope}`;
-      }
-
-      if (scope.startsWith(SCOPE_PREFIX)) {
-        return scope;
-      }
-
-      return `${SCOPE_PREFIX}${scope}`;
-    });
-
-    return new Set(normalizedScopes);
+    return new Set(scopeList);
   }
 }
 export default GithubAuth;

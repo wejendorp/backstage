@@ -31,7 +31,6 @@ export class GithubAuthProvider implements OAuthProviderHandlers {
         profile: any,
         done: any,
       ) => {
-        console.log('====>', profile, accessToken, params);
         done(
           undefined,
           {
