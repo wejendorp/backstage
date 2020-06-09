@@ -4,3 +4,5 @@ metadata:
   name: component3
 spec:
   type: service
+  lifecycle: production
+  owner: artist-relations@example.com

@@ -5,6 +5,8 @@ metadata:
   name: playlist-proxy
 spec:
   type: service
+  lifecycle: experimental
+  owner: players@example.com
 ---
 apiVersion: backstage.io/v1beta1
 kind: Component
@@ -12,3 +14,5 @@ metadata:
   name: artist-web
 spec:
   type: website
+  lifecycle: production
+  owner: artist-relations@example.com
