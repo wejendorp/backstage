@@ -15,7 +15,7 @@
  */
 
 import * as yup from 'yup';
-import type { Entity, EntityMeta } from '../entity/Entity';
+import type { Entity } from '../entity/Entity';
 import type { EntityPolicy } from '../types';
 
 const API_VERSION = 'backstage.io/v1beta1';
@@ -24,11 +24,10 @@ const KIND = 'Component';
 export interface ComponentV1beta1 extends Entity {
   apiVersion: typeof API_VERSION;
   kind: typeof KIND;
-  metadata: EntityMeta & {
-    name: string;
-  };
   spec: {
     type: string;
+    lifecycle: string;
+    owner: string;
   };
 }
 
@@ -37,14 +36,11 @@ export class ComponentV1beta1Policy implements EntityPolicy {
 
   constructor() {
     this.schema = yup.object<Partial<ComponentV1beta1>>({
-      metadata: yup
-        .object({
-          name: yup.string().required(),
-        })
-        .required(),
       spec: yup
         .object({
-          type: yup.string().required(),
+          type: yup.string().required().min(1),
+          lifecycle: yup.string().required().min(1),
+          owner: yup.string().required().min(1),
         })
         .required(),
     });
