@@ -894,19 +894,19 @@
   dependencies:
     tslib "^1.8.0"
 
-"@azure/msal-common@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/@azure/msal-common/-/msal-common-2.1.0.tgz#a4bc17e254d6ec524016f13267947dd4ff4a624d"
-  integrity sha512-Y1Id+jG59S3eY2ZQQtUA/lxwbRcgjcWaiib9YX+SwV3zeRauKfEiZT7l3z+lwV+T+Sst20F6l1mJsfQcfE7CEQ==
+"@azure/msal-common@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/@azure/msal-common/-/msal-common-4.0.2.tgz#6489d66929ba71fb30e03f559f2e9ee792088827"
+  integrity sha512-Z6FiDV+uWUZ4jcchRciKYYYKRWOc0sh/UaF5evfx7lXEp/8+KxO7cY1efgD7VOK75FkpRI5YyUzZAdX7I7sTAg==
   dependencies:
     debug "^4.1.1"
 
 "@azure/msal-node@^1.0.0-beta.3":
-  version "1.0.0-beta.3"
-  resolved "https://registry.npmjs.org/@azure/msal-node/-/msal-node-1.0.0-beta.3.tgz#c84c7948028b39e48b901f5fac35bdedcbc8772e"
-  integrity sha512-/KfYRfrsOIrZONvo/0Vi5umuqbPBtCWNtmRvkse64uI0C4CP/W4WXwRD42VMws/8LtKvr1I5rYlYgFzt5zDz/A==
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@azure/msal-node/-/msal-node-1.0.1.tgz#94f00b8ff44fb17d1dd1841ebafb7183f639a25e"
+  integrity sha512-6MEI4XItcvUE9Zns1W3aXt7Bzzhhitq56uhg36KzuaSWRxW+Zuu4wx4x5iJjv4WP8DLGeWpaWoRxN3UNXyQHfQ==
   dependencies:
-    "@azure/msal-common" "^2.1.0"
+    "@azure/msal-common" "^4.0.2"
     axios "^0.21.1"
     jsonwebtoken "^8.5.1"
     uuid "^8.3.0"
